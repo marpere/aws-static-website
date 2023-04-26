@@ -1,5 +1,5 @@
 locals {
-  app_name = "rdicidr"
+  app_name  = "rdicidr"
   build_dir = "./build/"
   mime_types = {
     "css"  = "text/css"
@@ -40,12 +40,12 @@ data "aws_s3_bucket" "code" {
 }
 
 resource "aws_s3_object" "code" {
-  for_each = fileset(local.build_dir, "**")
-  bucket = data.aws_s3_bucket.code.id
-  key = each.value
-  source = "${local.build_dir}${each.value}"
+  for_each     = fileset(local.build_dir, "**")
+  bucket       = data.aws_s3_bucket.code.id
+  key          = each.value
+  source       = "${local.build_dir}${each.value}"
   content_type = lookup(tomap(local.mime_types), element(split(".", each.key), length(split(".", each.key)) - 1))
-  etag = filemd5("${local.build_dir}${each.value}")
+  etag         = filemd5("${local.build_dir}${each.value}")
 }
 
 
@@ -74,9 +74,9 @@ data "aws_iam_policy_document" "allow_access_from_cloudfront_prod" {
     ]
 
     condition {
-      test = "StringEquals"
+      test     = "StringEquals"
       variable = "AWS:SourceArn"
-      values = [ aws_cloudfront_distribution.s3_distribution_prod.arn ]
+      values   = [aws_cloudfront_distribution.s3_distribution_prod.arn]
     }
   }
 }
@@ -112,6 +112,8 @@ resource "aws_cloudfront_distribution" "s3_distribution_prod" {
     max_ttl                = 86400
   }
 
+  price_class = "PriceClass_100"
+
   restrictions {
     geo_restriction {
       restriction_type = "none"
@@ -119,7 +121,7 @@ resource "aws_cloudfront_distribution" "s3_distribution_prod" {
   }
 
   tags = {
-    Environment = "production"
+    Environment = "Production"
   }
 
   viewer_certificate {
@@ -162,9 +164,9 @@ data "aws_iam_policy_document" "allow_access_from_cloudfront_devel" {
     ]
 
     condition {
-      test = "StringEquals"
+      test     = "StringEquals"
       variable = "AWS:SourceArn"
-      values = [ aws_cloudfront_distribution.s3_distribution_devel.arn ]
+      values   = [aws_cloudfront_distribution.s3_distribution_devel.arn]
     }
   }
 }
@@ -176,10 +178,10 @@ resource "aws_cloudfront_distribution" "s3_distribution_devel" {
     origin_id                = aws_s3_bucket.code_devel.id
   }
 
-    comment             = "Development"
-    enabled             = true
-    is_ipv6_enabled     = true
-    default_root_object = "index.html"
+  comment             = "Development"
+  enabled             = true
+  is_ipv6_enabled     = true
+  default_root_object = "index.html"
 
   default_cache_behavior {
     allowed_methods  = ["GET", "HEAD"]
@@ -199,6 +201,8 @@ resource "aws_cloudfront_distribution" "s3_distribution_devel" {
     default_ttl            = 3600
     max_ttl                = 86400
   }
+
+  price_class = "PriceClass_100"
 
   restrictions {
     geo_restriction {
@@ -251,9 +255,9 @@ data "aws_iam_policy_document" "allow_access_from_cloudfront_stage" {
     ]
 
     condition {
-      test = "StringEquals"
+      test     = "StringEquals"
       variable = "AWS:SourceArn"
-      values = [ aws_cloudfront_distribution.s3_distribution_stage.arn ]
+      values   = [aws_cloudfront_distribution.s3_distribution_stage.arn]
     }
   }
 }
@@ -288,6 +292,8 @@ resource "aws_cloudfront_distribution" "s3_distribution_stage" {
     default_ttl            = 3600
     max_ttl                = 86400
   }
+
+  price_class = "PriceClass_100"
 
   restrictions {
     geo_restriction {
