@@ -143,7 +143,7 @@ resource "aws_cloudfront_origin_access_control" "prod" {
 
 
 resource "aws_s3_bucket_policy" "allow_access_from_cloudfront_devel" {
-  bucket = aws_s3_bucket.code_prod.id
+  bucket = aws_s3_bucket.code_devel.id
   policy = data.aws_iam_policy_document.allow_access_from_cloudfront_devel.json
 }
 
