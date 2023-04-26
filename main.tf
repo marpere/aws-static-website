@@ -127,7 +127,7 @@ resource "aws_cloudfront_distribution" "s3_distribution_prod" {
   }
 }
 
-resource "aws_cloudfront_origin_access_control_prd" "prod" {
+resource "aws_cloudfront_origin_access_control" "prod" {
   name                              = "default"
   origin_access_control_origin_type = "s3"
   signing_behavior                  = "always"
