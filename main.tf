@@ -32,6 +32,11 @@ resource "aws_s3_bucket" "code_stage" {
 
 data "aws_s3_bucket" "code" {
   bucket = "${local.app_name}-${var.env}"
+  depends_on = [
+    aws_s3_bucket.code_prod,
+    aws_s3_bucket.code_devel,
+    aws_s3_bucket.code_stage
+  ]
 }
 
 resource "aws_s3_object" "code" {
