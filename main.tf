@@ -128,7 +128,7 @@ resource "aws_cloudfront_distribution" "s3_distribution_prod" {
 }
 
 resource "aws_cloudfront_origin_access_control" "prod" {
-  name                              = "default"
+  name                              = "prod"
   origin_access_control_origin_type = "s3"
   signing_behavior                  = "always"
   signing_protocol                  = "sigv4"
@@ -216,7 +216,7 @@ resource "aws_cloudfront_distribution" "s3_distribution_devel" {
 }
 
 resource "aws_cloudfront_origin_access_control" "devel" {
-  name                              = "default"
+  name                              = "devel"
   origin_access_control_origin_type = "s3"
   signing_behavior                  = "always"
   signing_protocol                  = "sigv4"
@@ -305,7 +305,7 @@ resource "aws_cloudfront_distribution" "s3_distribution_stage" {
 }
 
 resource "aws_cloudfront_origin_access_control" "stage" {
-  name                              = "default"
+  name                              = "stage"
   origin_access_control_origin_type = "s3"
   signing_behavior                  = "always"
   signing_protocol                  = "sigv4"
