@@ -84,7 +84,7 @@ data "aws_iam_policy_document" "allow_access_from_cloudfront_prod" {
 resource "aws_cloudfront_distribution" "s3_distribution_prod" {
   origin {
     domain_name              = aws_s3_bucket.code_prod.bucket_regional_domain_name
-    origin_access_control_id = aws_cloudfront_origin_access_control.default.id
+    origin_access_control_id = aws_cloudfront_origin_access_control.prod.id
     origin_id                = aws_s3_bucket.code_prod.id
   }
 
@@ -127,6 +127,13 @@ resource "aws_cloudfront_distribution" "s3_distribution_prod" {
   }
 }
 
+resource "aws_cloudfront_origin_access_control_prd" "prod" {
+  name                              = "default"
+  origin_access_control_origin_type = "s3"
+  signing_behavior                  = "always"
+  signing_protocol                  = "sigv4"
+}
+
 
 
 # DEVELOPMENT
@@ -165,7 +172,7 @@ data "aws_iam_policy_document" "allow_access_from_cloudfront_devel" {
 resource "aws_cloudfront_distribution" "s3_distribution_devel" {
   origin {
     domain_name              = aws_s3_bucket.code_devel.bucket_regional_domain_name
-    origin_access_control_id = aws_cloudfront_origin_access_control.default.id
+    origin_access_control_id = aws_cloudfront_origin_access_control.devel.id
     origin_id                = aws_s3_bucket.code_devel.id
   }
 
@@ -208,6 +215,12 @@ resource "aws_cloudfront_distribution" "s3_distribution_devel" {
   }
 }
 
+resource "aws_cloudfront_origin_access_control" "devel" {
+  name                              = "default"
+  origin_access_control_origin_type = "s3"
+  signing_behavior                  = "always"
+  signing_protocol                  = "sigv4"
+}
 
 
 
@@ -248,7 +261,7 @@ data "aws_iam_policy_document" "allow_access_from_cloudfront_stage" {
 resource "aws_cloudfront_distribution" "s3_distribution_stage" {
   origin {
     domain_name              = aws_s3_bucket.code_stage.bucket_regional_domain_name
-    origin_access_control_id = aws_cloudfront_origin_access_control.default.id
+    origin_access_control_id = aws_cloudfront_origin_access_control.stage.id
     origin_id                = aws_s3_bucket.code_stage.id
   }
 
@@ -291,25 +304,7 @@ resource "aws_cloudfront_distribution" "s3_distribution_stage" {
   }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-resource "aws_cloudfront_origin_access_control" "default" {
+resource "aws_cloudfront_origin_access_control" "stage" {
   name                              = "default"
   origin_access_control_origin_type = "s3"
   signing_behavior                  = "always"
