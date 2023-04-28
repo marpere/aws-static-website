@@ -19,7 +19,7 @@ provider "aws" {
 }
 
 resource "aws_s3_bucket" "code" {
-  bucket = "${local.app_name}-${var.env}"
+  bucket = "${local.app_name}-${terraform.workspace}"
 }
 
 resource "aws_s3_object" "code" {
@@ -67,7 +67,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     origin_id                = aws_s3_bucket.code.id
   }
 
-  comment             = ${var.env}
+  comment             = terraform.workspace
   enabled             = true
   is_ipv6_enabled     = true
   default_root_object = "index.html"
@@ -100,7 +100,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   }
 
   tags = {
-    Environment = var.env
+    Environment = terraform.workspace
   }
 
   viewer_certificate {
@@ -109,7 +109,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
 }
 
 resource "aws_cloudfront_origin_access_control" "oac" {
-  name                              = var.env
+  name                              = terraform.workspace
   origin_access_control_origin_type = "s3"
   signing_behavior                  = "always"
   signing_protocol                  = "sigv4"
