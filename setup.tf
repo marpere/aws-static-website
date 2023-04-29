@@ -1,3 +1,7 @@
+provider "aws" {
+  region = "sa-east-1"
+}
+
 terraform {
   backend "s3" {
     bucket = "1d54sce4e4c15"

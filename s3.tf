@@ -12,10 +12,10 @@ locals {
     "svg"  = "image/svg+xml"
     "txt"  = "text/plain"
   }
-  app_files = fileset(local.build_directory, "**")
+  app_files = fileset(local.build_dir, "**")
   file_hashes = {
     for filename in local.app_files :
-    filename => filemd5("${local.build_directory}/${filename}")
+    filename => filemd5("${local.build_dir}/${filename}")
   }
 }
 
