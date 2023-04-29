@@ -1,21 +1,11 @@
 locals {
   app_name  = "rdicidr"
-  build_dir = "./build/"
-  mime_types = {
-    "css"  = "text/css"
-    "html" = "text/html"
-    "ico"  = "image/vnd.microsoft.icon"
-    "js"   = "application/javascript"
-    "json" = "application/json"
-    "map"  = "application/json"
-    "png"  = "image/png"
-    "svg"  = "image/svg+xml"
-    "txt"  = "text/plain"
-  }
-  app_files = fileset(local.build_dir, "**")
+  static_dir = "./build/"
+  mime_types = jsondecode(file("mime.json"))
+  app_files = fileset(local.static_dir, "**")
   file_hashes = {
     for filename in local.app_files :
-    filename => filemd5("${local.build_dir}/${filename}")
+    filename => filemd5("${local.static_dir}/${filename}")
   }
 }
 
@@ -26,10 +16,10 @@ resource "aws_s3_bucket" "code" {
 resource "aws_s3_object" "code" {
   for_each     = local.app_files
   bucket       = aws_s3_bucket.code.id
-  key          = each.value
-  source       = "${local.build_dir}${each.value}"
+  key          = each.key
+  source       = "${local.static_dir}${each.key}"
   content_type = lookup(tomap(local.mime_types), element(split(".", each.key), length(split(".", each.key)) - 1))
-  etag         = filemd5("${local.build_dir}${each.value}")
+  etag         = filemd5("${local.static_dir}${each.key}")
 }
 
 resource "aws_s3_bucket_policy" "allow_access_from_cloudfront" {
