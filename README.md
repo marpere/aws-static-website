@@ -1,6 +1,6 @@
 # Terraform for static content on AWS S3 + AWS Cloudfront
 
-My take on the infra for a static website in AWS
+My take on creating the infra and send the files to host a static website in AWS using a S3 Bucket and a Cloudfront to serve this files with a HTTPS certificate.
 
 ## Problems dealt
 
