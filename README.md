@@ -1,5 +1,5 @@
 # Terraform for static content on AWS S3 + AWS Cloudfront
-My take on host static website with S3 and Cloudfront.
+My take on hosting static website with S3 and Cloudfront.
 ## Features
 - Bucket not publicly accessible
 - Cloudfront invalidation in each deploy
@@ -23,15 +23,17 @@ So in each new upload, this command runs to invalidate the cache.
 
 ### 2. Mime Types
 
-As opposed of files uploaded by AWS CLI, files uploaded in Terraform do not automatically are assigned a MIME type. This way, when the browser requests this files, they will have the Content Type ```application/octet-stream```, and will not be served by the browser but be downloaded insted.
+As opposed of files uploaded by AWS CLI, files uploaded in Terraform do not automatically are assigned a MIME type. 
 
-The way to olve this problem is to manually set the MIME Content type of each file.
+This way, when the browser requests this files, they will have the Content Type ```application/octet-stream```, and will not be served by the browser but be downloaded insted.
+
+The way to solve this problem is to manually set the MIME Content type of each file.
 
 So I created a file (mime.json) with a map with the extensions and the right content types, for in each upload, the file extension is checked into this map and get the right content type.
 
 ### 3. Bucket Access
 
-Some time before, the way to allow S3 to be publicly accessible, would be to open all accesses to the bucket, and front thosefiles with CloudFront.
+Some time ago, the way to allow S3 to be publicly accessible, would be to open all accesses to the bucket, and front those files with CloudFront.
 
 A problem, in this case, would be that people could still access the S3 bucket content without the need to use the Cloudfront.
 
@@ -43,4 +45,4 @@ This way, the only way to access the static content is through Cloudfront.
 
 If the same static content is sent again to the bucket, this will be uploaded again. 
 
-To prevent this, the hashes of every individual file are calculated, so when is time to upload do the bucket, will only do if those hashes have changed.
+To prevent this, the hashes of every individual file are calculated in each upload, so when is time to upload do the bucket again, will only do if those hashes have changed.
