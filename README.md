@@ -41,8 +41,8 @@ To solve this, now is possible to let the bucket be private, and allow only the 
 
 This way, the only way to access the static content is through Cloudfront.
 
-### 4. Update the same content to S3
+### 4. Upload the same content to Bucekt
 
-If the same static content is sent again to the bucket, this will be uploaded again. 
+If the same static content is sent again to the S3 bucket, this will be uploaded again. 
 
 To prevent this, the hashes of every individual file are calculated in each upload, so when is time to upload do the bucket again, will only do if those hashes have changed.
