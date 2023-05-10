@@ -1,6 +1,8 @@
 # Terraform for static content on AWS S3 + AWS Cloudfront
-
-My take on creating the infra and send the files to host a static website in AWS using a S3 Bucket and a Cloudfront to serve this files with a HTTPS certificate.
+## Features
+- Bucket not publicly accessible
+- Cloudfront invalidation in each deploy
+- HTTPS certificate
 
 ## Problems dealt
 
@@ -20,9 +22,9 @@ So in every new redistribution to Cloudfront, this command runs to invalidate th
 
 ### 2. Mime Types
 
-As opposed of files uploaded by AWS CLI, files uploaded in Terraform do not automatically  assignMIME types. Causing the problem of, when these files are tied to be accessed they will have the Content Type application/octet-stream, not allowing the browser to server these files correctly but downloading them.
+As opposed of files uploaded by AWS CLI, files uploaded in Terraform do not automatically  assign MIME types. Causing the problem of, when these files are tied to be accessed they will have the Content Type application/octet-stream, not allowing the browser to server these files correctly but downloading them.
 
-The way to resolve this problem is to manually set the MIME Content type of each file.
+The way to olve this problem is to manually set the MIME Content type of each file.
 
 So I created a file (mime.json) with a map with the extensions and the right content types, for in each upload, the file extension is checked into this map and get the right content type.
 
@@ -30,7 +32,7 @@ So I created a file (mime.json) with a map with the extensions and the right con
 
 Some time before, the way to allow S3 to be publicly accessible would be to open all accesses to the bucket, and allow it to server static content and front this with a Cloudfront distribution.
 
-A problem,in this case, would be that people could access the S3 bucket content without the need to use the Cloudfront.
+A problem, in this case, would be that people could access the S3 bucket content without the need to use the Cloudfront.
 
 To solve this, now is possible to let the bucket be private, and allow only the Cloudfront to access its content through an Origin Access Control.
 
