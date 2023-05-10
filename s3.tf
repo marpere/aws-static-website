@@ -1,5 +1,5 @@
 locals {
-  app_name  = "rdicidr"
+  app_name  = "myapp"
   static_dir = "./build/"
   mime_types = jsondecode(file("mime.json"))
   app_files = fileset(local.static_dir, "**")
