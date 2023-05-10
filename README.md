@@ -15,7 +15,7 @@ By default, this cache expires only after 24 hours. So, if this files are replac
 
 The only way to deal with this is to manually invalidate this cache, but this feature is not available through AWS API or AWS SDK, so terrafrom, out of the box, can't do this.
 
-The solution is to run the following AWS CLI command as a terraform resource:
+The solution found was to run the following AWS CLI command as a terraform resource:
 
 ```aws cloudfront create-invalidation```
 
