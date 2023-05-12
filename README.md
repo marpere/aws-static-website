@@ -2,8 +2,8 @@
 My take on hosting static website with S3 and Cloudfront.
 ## Features
 - Bucket not publicly accessible
-- Cloudfront invalidation in each deploy
-- HTTPS certificate
+- Cloudfront cache invalidation in each deploy
+- Cloudfront HTTPS certificate
 
 ## Problems dealt
 
