@@ -1,5 +1,5 @@
 # Terraform for static content on AWS S3 + AWS Cloudfront
-My take on hosting static website with S3 and Cloudfront.
+Bulletproof static hosting with S3 and Cloudfront.
 ## Features
 - Bucket not publicly accessible
 - Cloudfront cache invalidation in each deploy
