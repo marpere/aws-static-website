@@ -1,25 +1,23 @@
 locals {
-  app_name  = var.app_name
-  static_dir = var.static_dir
   mime_types = jsondecode(file("mime.json"))
-  app_files = fileset(local.static_dir, "**")
+  app_files = fileset(var.static_dir, "**")
   file_hashes = {
     for filename in local.app_files :
-    filename => filemd5("${local.static_dir}/${filename}")
+    filename => filemd5("${var.static_dir}${filename}")
   }
 }
 
 resource "aws_s3_bucket" "code" {
-  bucket = local.app_name
+  bucket = var.app_name
 }
 
 resource "aws_s3_object" "code" {
   for_each     = local.app_files
   bucket       = aws_s3_bucket.code.id
   key          = each.key
-  source       = "${local.static_dir}${each.key}"
+  source       = "${var.static_dir}${each.key}"
   content_type = lookup(tomap(local.mime_types), element(split(".", each.key), length(split(".", each.key)) - 1))
-  etag         = filemd5("${local.static_dir}${each.key}")
+  etag         = filemd5("${var.static_dir}${each.key}")
 }
 
 resource "aws_s3_bucket_policy" "allow_access_from_cloudfront" {
