@@ -1,6 +1,6 @@
 locals {
-  app_name  = "myapp"
-  static_dir = "./build/"
+  app_name  = var.app_name
+  static_dir = var.static_dir
   mime_types = jsondecode(file("mime.json"))
   app_files = fileset(local.static_dir, "**")
   file_hashes = {
@@ -10,7 +10,7 @@ locals {
 }
 
 resource "aws_s3_bucket" "code" {
-  bucket = "${local.app_name}-${terraform.workspace}"
+  bucket = local.app_name
 }
 
 resource "aws_s3_object" "code" {
