@@ -1,6 +1,6 @@
 locals {
   mime_types = jsondecode(file("mime.json"))
-  app_files = fileset(var.static_dir, "**")
+  app_files  = fileset(var.static_dir, "**")
   file_hashes = {
     for filename in local.app_files :
     filename => filemd5("${var.static_dir}${filename}")
