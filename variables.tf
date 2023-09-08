@@ -9,3 +9,9 @@ variable "static_dir" {
   type        = string
   default     = "./public/"
 }
+
+variable "domain_name" {
+  description = "Domain name that the static site will be serverd"
+  type        = string
+  default     = "blog.iestudos.com.br"
+}

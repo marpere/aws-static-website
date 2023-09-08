@@ -5,6 +5,8 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     origin_id                = aws_s3_bucket.code.id
   }
 
+  aliases = [var.var.domain_name]
+
   enabled             = true
   is_ipv6_enabled     = true
   default_root_object = "index.html"
@@ -38,7 +40,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   }
 
   viewer_certificate {
-    cloudfront_default_certificate = true
+    acm_certificate_arn = aws_acm_certificate.cert.arn
   }
 }
 
