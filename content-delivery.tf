@@ -5,7 +5,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     origin_id                = aws_s3_bucket.code.id
   }
 
-  #aliases = [var.domain_name]
+  aliases = [var.domain_name]
 
   enabled             = true
   is_ipv6_enabled     = true
@@ -40,8 +40,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   }
 
   viewer_certificate {
-    #acm_certificate_arn = aws_acm_certificate.cert.arn
-    cloudfront_default_certificate = true
+    acm_certificate_arn = aws_acm_certificate.cert.arn
   }  
 
   lifecycle {
