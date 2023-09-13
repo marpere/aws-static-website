@@ -43,6 +43,11 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     #acm_certificate_arn = aws_acm_certificate.cert.arn
     cloudfront_default_certificate = true
   }  
+
+  lifecycle {
+    prevent_destroy = true
+  }
+
 }
 
 resource "aws_cloudfront_origin_access_control" "oac" {
