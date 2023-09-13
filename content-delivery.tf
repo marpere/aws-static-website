@@ -5,7 +5,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     origin_id                = aws_s3_bucket.code.id
   }
 
-  aliases = [var.var.domain_name]
+  aliases = [var.domain_name]
 
   enabled             = true
   is_ipv6_enabled     = true
