@@ -1,5 +1,5 @@
 locals {
-  mime_types = jsondecode(file("mime.json"))
+  mime_types = jsondecode(file("mime_types_mapped_for_file_extensions.json"))
   app_files  = fileset(var.static_dir, "**")
   file_hashes = {
     for filename in local.app_files :
@@ -8,7 +8,7 @@ locals {
 }
 
 resource "aws_s3_bucket" "code" {
-  bucket = var.app_name
+  bucket = var.domain_name
 }
 
 resource "aws_s3_object" "code" {

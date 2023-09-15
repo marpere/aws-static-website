@@ -5,12 +5,10 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     origin_id                = aws_s3_bucket.code.id
   }
 
-  aliases = [var.domain_name]
-
   enabled             = true
   is_ipv6_enabled     = true
   default_root_object = "index.html"
-  comment             = var.app_name
+  comment             = var.domain_name
 
   default_cache_behavior {
     allowed_methods  = ["GET", "HEAD"]
@@ -40,14 +38,13 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   }
 
   viewer_certificate {
-    acm_certificate_arn = aws_acm_certificate.cert.arn
-    ssl_support_method = "sni-only"
+    cloudfront_default_certificate = true
   }  
 
 }
 
 resource "aws_cloudfront_origin_access_control" "oac" {
-  name                              = var.app_name
+  name                              = var.domain_name
   origin_access_control_origin_type = "s3"
   signing_behavior                  = "always"
   signing_protocol                  = "sigv4"

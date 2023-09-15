@@ -29,7 +29,7 @@ This way, when the browser requests this files, they will have the Content Type 
 
 The way to solve this problem is to manually set the MIME Content type of each file.
 
-So I created a file (mime.json) with a map with the extensions and the right content types, for in each upload, the file extension is checked into this map and get the right content type.
+So I created a file (mime_types_mapped_for_file_extensions.json) with a map with the extensions and the right content types, for in each upload, the file extension is checked into this map and get the right content type.
 
 ### 3. Bucket Access
 
