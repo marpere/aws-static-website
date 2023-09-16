@@ -11,14 +11,11 @@ resource "aws_s3_bucket" "website" {
   bucket = var.domain_name
 }
 
-resource "aws_s3_bucket_website_configuration" "website" {
-  
+resource "aws_s3_bucket_website_configuration" "website" {  
   bucket = aws_s3_bucket.website.id
-
   index_document {
     suffix = "index.html"
   }
-
   error_document {
     key = "404.html"
   }
@@ -31,19 +28,6 @@ resource "aws_s3_object" "website" {
   source       = "${var.static_dir}${each.key}"
   content_type = lookup(tomap(local.mime_types), element(split(".", each.key), length(split(".", each.key)) - 1))
   etag         = filemd5("${var.static_dir}${each.key}")
-}
-
-resource "aws_s3_bucket_public_access_block" "website" {
-  bucket = aws_s3_bucket.website.id
-  block_public_acls       = false
-  block_public_policy     = false
-  ignore_public_acls      = false
-  restrict_public_buckets = false
-}
-
-resource "aws_s3_bucket_acl" "website" {
-  bucket = aws_s3_bucket.website.id
-  acl    = "public-read"
 }
 
 resource "aws_s3_bucket_policy" "allow_access_from_cloudflare" {
