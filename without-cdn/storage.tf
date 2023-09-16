@@ -11,7 +11,7 @@ resource "aws_s3_bucket" "website" {
   bucket = var.domain_name
 }
 
-resource "aws_s3_bucket_website_configuration" "website" {  
+resource "aws_s3_bucket_website_configuration" "website" {
   bucket = aws_s3_bucket.website.id
   index_document {
     suffix = "index.html"
@@ -54,7 +54,7 @@ data "aws_iam_policy_document" "allow_access_from_cloudflare" {
     condition {
       test     = "IpAddress"
       variable = "aws:SourceIp"
-      values   = [
+      values = [
         "173.245.48.0/20",
         "103.21.244.0/22",
         "103.22.200.0/22",
